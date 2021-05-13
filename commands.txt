@@ -1,0 +1,91 @@
+---создаем двух пользователей---
+user1 = User.objects.create_user(username='Dan')
+user2 = User.objects.create_user(username='Tim')
+
+---создаем два объекта модели Author---
+author1 = Author.objects.create(user=user1)
+author2 = Author.objects.create(user=user2)
+
+---добавляем 4 категории в Category---
+category1 = Category.objects.create(theme='Sport')
+category2 = Category.objects.create(theme='Politics')
+category3 = Category.objects.create(theme='IT')
+category4 = Category.objects.create(theme='Business')
+
+---добавляем 2 статьи и одну новость---
+news1 = Post.objects.create(author= author1, categoryType='NW', text='politics news text')
+article1 = Post.objects.create(author= author2, categoryType='AR', title='Business article title', text='business article text')
+article2 = Post.objects.create(author= author2, categoryType='AR', title='IT article title', text='IT article text')
+
+---присваиваем им категории---
+Post.objects.get(title='Politics news title').category.add(Category.objects.get(theme='Politics'))
+Post.objects.get(title='Business article title').category.add(Category.objects.get(theme='Business'))
+Post.objects.get(title='IT article title').category.add(Category.objects.get(theme='IT'))
+Post.objects.get(title='IT article title').category.add(Category.objects.get(theme='Business'))
+
+---создаем 4 комментария к разным обьектам модели Post---
+comment1 = Comment.objects.create(post=Post.objects.get(title='Politics news title'), user=Author.objects.get(user=user1).user, text='politics comment')
+comment2 = Comment.objects.create(post=Post.objects.get(title='Business article title'), user=Author.objects.get(user=user2).user, text='business comment')
+comment3 = Comment.objects.create(post=Post.objects.get(title='IT article title'), user=Author.objects.get(user=user2).user, text='IT comment')
+comment4 = Comment.objects.create(post=Post.objects.get(title='IT article title'), user=Author.objects.get(user=user1).user, text='IT comment2')
+
+---применяем функции like/dislike к статьям/новостям---
+Post.objects.get(id=1).like()
+Post.objects.get(id=1).dislike()
+Post.objects.get(id=1).dislike()
+Post.objects.get(id=2).like()
+Post.objects.get(id=2).like()
+Post.objects.get(id=3).like()
+Post.objects.get(id=3).like()
+Post.objects.get(id=3).like()
+Post.objects.get(id=3).like()
+Post.objects.get(id=3).like()
+Comment.objects.get(id=1).like()
+Comment.objects.get(id=1).like()
+Comment.objects.get(id=1).dislike()
+Comment.objects.get(id=2).like()
+Comment.objects.get(id=2).like()
+Comment.objects.get(id=2).like()
+Comment.objects.get(id=3).like()
+Comment.objects.get(id=3).like()
+Comment.objects.get(id=3).like()
+Comment.objects.get(id=4).like()
+Comment.objects.get(id=4).like()
+Comment.objects.get(id=4).like()
+
+---обновляем рейтинг пользователей---
+Author.objects.get(user=user1).update_rating()
+Author.objects.get(user=user1).rating
+Author.objects.get(user=user2).update_rating()
+Author.objects.get(user=user2).rating
+
+---выводим имя и рейтинг лучшего пользователя---
+best_user = Author.objects.order_by('-rating')[:1]
+for i in best_user:
+    i.rating
+    i.user.username
+'''
+best_user.values()
+'''
+
+---выводим информацию о лучшей статье---
+best_article= Post.objects.order_by('-rating')[:1]
+for i in best_article:
+    i.time.day
+    i.time.month
+    i.time.year
+    i.author.user.username
+    i.rating
+    i.title
+    i.()
+
+---выводим все комментарии к этой статье---
+commentsIT = Comment.objects.filter(post=Post.objects.get(title='IT article title'))
+for i in commentsIT:
+    i.time.day
+    i.time.month
+    i.time.year
+    i.user.username
+    i.rating
+    i.text
+
