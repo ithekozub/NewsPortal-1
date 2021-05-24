@@ -24,6 +24,7 @@ class Category(models.Model):
     theme = models.CharField(max_length=255, unique=True)
 
 
+
 class Post(models.Model):
     NEWS = 'NW'
     ARTICLES = 'AR'
@@ -55,6 +56,14 @@ class Post(models.Model):
         elif len(self.text) > 124:
             short_text = len(self.text)[0:124]
             return short_text + '...'
+
+
+    def __str__(self):
+        return f"{self.title.title()}" \
+               f"{self.text}"
+
+    class Meta:
+        ordering = ['-time']
 
 
 class Comment(models.Model):

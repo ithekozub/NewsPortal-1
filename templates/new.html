@@ -1,0 +1,18 @@
+{% extends 'flatpages/default.html' %}
+
+
+{% block title %}
+    News
+{% endblock title %}
+
+{% block content %}
+    <h1>News</h1>
+    {{ post.title }}
+    <br>
+    {{ post.time.day }}.
+    {{ post.time.month }}.
+    {{ post.time.year }}
+    {{ post.time.hour }}:{{ post.time.minute }}
+    <br>
+    {{ post.text }}
+{% endblock content %}
